@@ -4,18 +4,17 @@
 
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-> Learning Spatiotemporal Features with 3D Convolutional Network
+> Implement C3D Using PyTorch
+
+`C3D`扩展了卷积核的维度，通过加入时间维度，将卷积核从空间感受野（$H\times W$）扩展到时空感受野（$T\times H\times W$），能够有效的捕捉视频片段中的动作信息
 
 ## 内容列表
 
 - [C3D](#c3d)
   - [内容列表](#内容列表)
-  - [背景](#背景)
   - [主要维护人员](#主要维护人员)
   - [参与贡献方式](#参与贡献方式)
   - [许可证](#许可证)
-
-## 背景
 
 ## 主要维护人员
 
