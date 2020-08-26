@@ -16,4 +16,4 @@ def build_optimizer(model):
 
 
 def build_lr_scheduler(optimizer):
-    return optim.lr_scheduler.StepLR(optimizer, step_size=3)
+    return optim.lr_scheduler.MultiStepLR(optimizer, [2500, 6000])
