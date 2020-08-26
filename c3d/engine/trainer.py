@@ -15,24 +15,28 @@ import torch
 from c3d.util.metrics import topk_accuracy
 from c3d.util.metric_logger import MetricLogger
 
+from .evaluation import do_evaluation
 
-def do_train(model, criterion, optimizer, lr_scheduler, data_loader,
+
+def do_train(arguments,
+             model, criterion, optimizer, lr_scheduler, data_loader,
              checkpointer, logger, max_iter, device=None):
     logger.info("Start training ...")
     meters = MetricLogger()
 
     model.train()
 
-    iteration = 0
+    start_iter = arguments['iteration']
     log_step = 10
-    save_step = 10
-    eval_step = 2500
+    save_step = 2500
+    eval_step = 1000
 
     start_training_time = time.time()
     end = time.time()
     # Iterate over data.
-    for inputs, labels in data_loader:
+    for iteration, (inputs, labels) in enumerate(data_loader, start_iter):
         iteration += 1
+        arguments['iteration'] = iteration
 
         inputs = inputs.to(device)
         labels = labels.to(device)
@@ -78,6 +82,11 @@ def do_train(model, criterion, optimizer, lr_scheduler, data_loader,
                     mem=round(torch.cuda.max_memory_allocated() / 1024.0 / 1024.0),
                 )
             )
+        if iteration % save_step == 0:
+            checkpointer.save("model_{:06d}".format(iteration), **arguments)
+        if iteration % eval_step == 0:
+            do_evaluation(model, device)
+            model.train()
 
     total_training_time = int(time.time() - start_training_time)
     total_time_str = str(datetime.timedelta(seconds=total_training_time))

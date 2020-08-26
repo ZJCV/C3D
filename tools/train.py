@@ -24,8 +24,7 @@ if __name__ == '__main__':
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
-    model_name = 'C3D'
-    logger = setup_logger(model_name, save_dir=output_dir)
+    logger = setup_logger('C3D.train', save_dir=output_dir)
 
     max_iter = 10000
     data_loader = build_dataloader('', max_iter, train=True)
@@ -37,5 +36,7 @@ if __name__ == '__main__':
     checkpointer = CheckPointer(model, optimizer=optimizer, scheduler=lr_scheduler, save_dir=output_dir,
                                 save_to_disk=True, logger=logger)
 
-    do_train(model, criterion, optimizer, lr_scheduler, data_loader,
+    arguments = {"iteration": 0}
+    do_train(arguments,
+             model, criterion, optimizer, lr_scheduler, data_loader,
              checkpointer, logger, max_iter, device=device)
