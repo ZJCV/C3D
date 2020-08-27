@@ -8,7 +8,7 @@
 """
 
 import os
-import datetime
+from datetime import datetime
 import torch
 from tqdm import tqdm
 import numpy as np
@@ -69,7 +69,8 @@ def inference(cfg, model, device, **kwargs):
     logger.info("Evaluating {} dataset({} video clips):".format(dataset_name, len(dataset)))
 
     results_dict, cate_acc_dict, acc_top1, acc_top5 = compute_on_dataset(model, data_loader, device)
-    result_str = '\n{:<16} - top_1 acc: {:.3f}, top_5 acc: {:.3f}\n'.format('total', np.mean(acc_top1), np.mean(acc_top5))
+    result_str = '\n{:<16} - top_1 acc: {:.3f}, top_5 acc: {:.3f}\n'.format('total', np.mean(acc_top1),
+                                                                            np.mean(acc_top5))
     classes = dataset.classes
 
     for key in sorted(results_dict.keys(), key=lambda x: int(x)):
