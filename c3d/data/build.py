@@ -28,7 +28,7 @@ def build_dataloader(cfg, train=True):
         sampler = torch.utils.data.sampler.SequentialSampler(dataset)
         batch_size = cfg.DATALOADER.TEST_BATCH_SIZE
 
-    batch_sampler = torch.utils.data.sampler.BatchSampler(sampler=sampler, batch_size=batch_size, drop_last=False)
+    batch_sampler = torch.utils.data.sampler.BatchSampler(sampler=sampler, batch_size=batch_size, drop_last=True)
     if train:
         batch_sampler = IterationBasedBatchSampler(batch_sampler, num_iterations=cfg.TRAIN.MAX_ITER, start_iter=0)
 
