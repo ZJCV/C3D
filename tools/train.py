@@ -35,8 +35,8 @@ def train(cfg, device=None):
     arguments = {"iteration": 0}
     checkpointer = CheckPointer(model, optimizer=optimizer, scheduler=lr_scheduler, save_dir=output_dir,
                                 save_to_disk=True, logger=logger)
-    # extra_checkpoint_data = checkpointer.load()
-    # arguments.update(extra_checkpoint_data)
+    extra_checkpoint_data = checkpointer.load()
+    arguments.update(extra_checkpoint_data)
 
     model = do_train(cfg, arguments,
                      model, criterion, optimizer, lr_scheduler, data_loader,
@@ -75,7 +75,7 @@ def main():
 
     output_dir = cfg.OUTPUT.DIR
     if not os.path.exists(output_dir):
-        os.mkdir(output_dir)
+        os.makedirs(output_dir)
 
     logger = setup_logger("C3D", save_dir=cfg.OUTPUT.DIR)
     logger.info(args)

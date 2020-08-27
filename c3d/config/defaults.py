@@ -96,4 +96,4 @@ _C.DATALOADER.NUM_WORKERS = 8
 # Output
 # ---------------------------------------------------------------------------- #
 _C.OUTPUT = CN()
-_C.OUTPUT.DIR = 'outputs'
+_C.OUTPUT.DIR = 'outputs/hmdb51'
