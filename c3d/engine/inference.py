@@ -80,9 +80,9 @@ def inference(cfg, model, device, **kwargs):
         cate_name = classes[int(key)]
 
         if total_num != 0:
-            result_str += '{:<2} - {:<16} - acc: {:.2f}\n'.format(key, cate_name, acc_num / total_num * 100)
+            result_str += '{:<3} - {:<20} - acc: {:.2f}\n'.format(key, cate_name, acc_num / total_num * 100)
         else:
-            result_str += '{:<2} - {:<16} - acc: 0.0\n'.format(key, cate_name, acc_num / total_num)
+            result_str += '{:<3} - {:<20} - acc: 0.0\n'.format(key, cate_name, acc_num / total_num)
     logger.info(result_str)
 
     if iteration is not None:
