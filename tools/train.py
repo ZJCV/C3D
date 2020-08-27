@@ -32,15 +32,14 @@ if __name__ == '__main__':
 
     data_loader = build_dataloader(cfg, train=True)
     criterion = build_criterion()
-    model = build_model(num_classes=51).to(device)
-    optimizer = build_optimizer(model)
-    lr_scheduler = build_lr_scheduler(optimizer)
+    model = build_model(num_classes=cfg.MODEL.NUM_CLASSES).to(device)
+    optimizer = build_optimizer(cfg, model)
+    lr_scheduler = build_lr_scheduler(cfg, optimizer)
 
     checkpointer = CheckPointer(model, optimizer=optimizer, scheduler=lr_scheduler, save_dir=output_dir,
                                 save_to_disk=True, logger=logger)
 
     arguments = {"iteration": 0}
-    max_iter = cfg.TRAIN.MAX_ITER
-    do_train(arguments,
+    do_train(cfg, arguments,
              model, criterion, optimizer, lr_scheduler, data_loader,
-             checkpointer, logger, max_iter, device=device)
+             checkpointer, logger, device=device)

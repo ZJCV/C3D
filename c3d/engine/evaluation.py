@@ -50,8 +50,8 @@ def compute_on_dataset(model, data_loader, device):
     return results_dict, cate_acc_dict, acc_top1, acc_top5
 
 
-def inference(model, data_loader, device):
-    logger = setup_logger('C3D.evaluation')
+def inference(cfg, model, data_loader, device):
+    logger = setup_logger(cfg.TEST.NAME)
 
     dataset = data_loader.dataset
     logger.info("Evaluating {} dataset({} video clips):".format('hmdb51', len(dataset)))
@@ -69,8 +69,8 @@ def inference(model, data_loader, device):
 
 
 @torch.no_grad()
-def do_evaluation(model, device):
+def do_evaluation(cfg, model, device):
     model.eval()
 
-    data_loaders_val = build_dataloader('', train=False)
-    inference(model, data_loaders_val, device)
+    data_loaders_val = build_dataloader(cfg, train=False)
+    inference(cfg, model, data_loaders_val, device)

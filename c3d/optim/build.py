@@ -10,10 +10,16 @@
 import torch.optim as optim
 
 
-def build_optimizer(model):
-    return optim.SGD(model.parameters(), lr=1e-3, momentum=0.9, weight_decay=3e-4)
+def build_optimizer(cfg, model):
+    lr = cfg.OPTIMIZER.LR
+    momentum = cfg.OPTIMIZER.MOMENTUM
+    weight_decay = cfg.OPTIMIZER.WEIGHT_DECAY
+
+    return optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
     # return optim.Adam(model.parameters(), lr=1e-6, weight_decay=1e-6)
 
 
-def build_lr_scheduler(optimizer):
-    return optim.lr_scheduler.MultiStepLR(optimizer, [2500, 6000])
+def build_lr_scheduler(cfg, optimizer):
+    milestones = cfg.LR_SCHEDULER.MILESTONES
+
+    return optim.lr_scheduler.MultiStepLR(optimizer, milestones)

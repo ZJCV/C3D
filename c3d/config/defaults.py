@@ -14,8 +14,8 @@ _C.TRAIN = CN()
 _C.TRAIN.NAME = 'C3D.train'
 _C.TRAIN.MAX_ITER = 10000
 _C.TRAIN.LOG_STEP = 10
-_C.TRAIN.SAVE_STEP = 2500
-_C.TRAIN.EVAL_STEP = 2500
+_C.TRAIN.SAVE_STEP = 200
+_C.TRAIN.EVAL_STEP = 200
 
 # ---------------------------------------------------------------------------- #
 # Test
@@ -54,7 +54,9 @@ _C.OPTIMIZER.MOMENTUM = 0.9
 _C.LR_SCHEDULER = CN()
 _C.LR_SCHEDULER.NAME = 'multi_step_lr'
 # for SteLR
-_C.LR_SCHEDULER.STEP_SIZE = [2500, 6000]
+_C.LR_SCHEDULER.STEP_SIZE = 400
+# for MultiStepLR
+_C.LR_SCHEDULER.MILESTONES = [2500, 6000]
 
 # ---------------------------------------------------------------------------- #
 # DataSets

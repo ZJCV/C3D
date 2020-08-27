@@ -18,18 +18,19 @@ from c3d.util.metric_logger import MetricLogger
 from .evaluation import do_evaluation
 
 
-def do_train(arguments,
+def do_train(cfg, arguments,
              model, criterion, optimizer, lr_scheduler, data_loader,
-             checkpointer, logger, max_iter, device=None):
+             checkpointer, logger, device=None):
     logger.info("Start training ...")
     meters = MetricLogger()
 
     model.train()
 
     start_iter = arguments['iteration']
-    log_step = 10
-    save_step = 2500
-    eval_step = 1000
+    max_iter = cfg.TRAIN.MAX_ITER
+    log_step = cfg.TRAIN.LOG_STEP
+    save_step = cfg.TRAIN.SAVE_STEP
+    eval_step = cfg.TRAIN.EVAL_STEP
 
     start_training_time = time.time()
     end = time.time()
@@ -85,7 +86,7 @@ def do_train(arguments,
         if iteration % save_step == 0:
             checkpointer.save("model_{:06d}".format(iteration), **arguments)
         if iteration % eval_step == 0:
-            do_evaluation(model, device)
+            do_evaluation(cfg, model, device)
             model.train()
 
     total_training_time = int(time.time() - start_training_time)
