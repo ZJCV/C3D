@@ -11,8 +11,8 @@ from .train_transform import TrainTransform
 from .test_transform import TestTransform
 
 
-def build_transform(train=True):
+def build_transform(cfg, train=True):
     if train:
-        return TrainTransform()
+        return TrainTransform(cfg)
     else:
-        return TestTransform()
+        return TestTransform(cfg)
