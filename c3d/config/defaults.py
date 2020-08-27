@@ -52,7 +52,7 @@ _C.OPTIMIZER.MOMENTUM = 0.9
 # LR_Scheduler
 # ---------------------------------------------------------------------------- #
 _C.LR_SCHEDULER = CN()
-_C.LR_SCHEDULER.NAME = 'multi_step_lr'
+_C.LR_SCHEDULER.NAME = 'multistep_lr'
 # for SteLR
 _C.LR_SCHEDULER.STEP_SIZE = 400
 # for MultiStepLR
