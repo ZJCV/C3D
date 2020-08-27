@@ -2,11 +2,13 @@
 
 """
 @date: 2020/8/26 上午11:09
-@file: evaluation.py
+@file: inference.py
 @author: zj
 @description: 
 """
 
+import os
+import datetime
 import torch
 from tqdm import tqdm
 import numpy as np
@@ -50,27 +52,48 @@ def compute_on_dataset(model, data_loader, device):
     return results_dict, cate_acc_dict, acc_top1, acc_top5
 
 
-def inference(cfg, model, data_loader, device):
-    logger = setup_logger(cfg.TEST.NAME)
+def get_key(dct, value):
+    return list(filter(lambda k: dct[k] == value, dct))
 
+
+def inference(cfg, model, device, **kwargs):
+    iteration = kwargs['iteration']
+    logger_name = cfg.INFER.NAME
+    dataset_name = cfg.DATASETS.TEST.NAME
+    output_dir = cfg.OUTPUT.DIR
+
+    data_loader = build_dataloader(cfg, train=False)
     dataset = data_loader.dataset
-    logger.info("Evaluating {} dataset({} video clips):".format('hmdb51', len(dataset)))
-    results_dict, cate_acc_dict, acc_top1, acc_top5 = compute_on_dataset(model, data_loader, device)
 
-    logger.info('totoal - top_1 acc: {:.3f}, top_5 acc: {:.3f}'.format(np.mean(acc_top1), np.mean(acc_top5)))
+    logger = setup_logger(logger_name)
+    logger.info("Evaluating {} dataset({} video clips):".format(dataset_name, len(dataset)))
+
+    results_dict, cate_acc_dict, acc_top1, acc_top5 = compute_on_dataset(model, data_loader, device)
+    result_str = '\n{:<16} - top_1 acc: {:.3f}, top_5 acc: {:.3f}\n'.format('total', np.mean(acc_top1), np.mean(acc_top5))
+    classes = dataset.classes
+
     for key in sorted(results_dict.keys(), key=lambda x: int(x)):
         total_num = results_dict[key]
         acc_num = cate_acc_dict[key]
 
+        cate_name = classes[int(key)]
+
         if total_num != 0:
-            logger.info('cate: {} - acc: {:.3f}'.format(key, acc_num / total_num))
+            result_str += '{:<2} - {:<16} - acc: {:.2f}\n'.format(key, cate_name, acc_num / total_num * 100)
         else:
-            logger.info('cate: {} - acc: 0.0'.format(key, acc_num / total_num))
+            result_str += '{:<2} - {:<16} - acc: 0.0\n'.format(key, cate_name, acc_num / total_num)
+    logger.info(result_str)
+
+    if iteration is not None:
+        result_path = os.path.join(output_dir, 'result_{:07d}.txt'.format(iteration))
+    else:
+        result_path = os.path.join(output_dir, 'result_{}.txt'.format(datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
+    with open(result_path, "w") as f:
+        f.write(result_str)
 
 
 @torch.no_grad()
-def do_evaluation(cfg, model, device):
+def do_evaluation(cfg, model, device, **kwargs):
     model.eval()
 
-    data_loaders_val = build_dataloader(cfg, train=False)
-    inference(cfg, model, data_loaders_val, device)
+    inference(cfg, model, device, **kwargs)

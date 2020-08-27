@@ -14,14 +14,14 @@ _C.TRAIN = CN()
 _C.TRAIN.NAME = 'C3D.train'
 _C.TRAIN.MAX_ITER = 10000
 _C.TRAIN.LOG_STEP = 10
-_C.TRAIN.SAVE_STEP = 200
-_C.TRAIN.EVAL_STEP = 200
+_C.TRAIN.SAVE_STEP = 2500
+_C.TRAIN.EVAL_STEP = 2500
 
 # ---------------------------------------------------------------------------- #
 # Test
 # ---------------------------------------------------------------------------- #
-_C.TEST = CN()
-_C.TEST.NAME = 'C3D.test'
+_C.INFER = CN()
+_C.INFER.NAME = 'C3D.infer'
 
 # ---------------------------------------------------------------------------- #
 # Model
@@ -64,14 +64,14 @@ _C.LR_SCHEDULER.MILESTONES = [2500, 6000]
 _C.DATASETS = CN()
 
 _C.DATASETS.TRAIN = CN()
-_C.DATASETS.TRAIN.NAME = ['hmdb51']
+_C.DATASETS.TRAIN.NAME = 'HMDB51'
 _C.DATASETS.TRAIN.STEP_BETWEEN_CLIPS = 16
 _C.DATASETS.TRAIN.FRAMES_PER_CLIP = 16
 _C.DATASETS.TRAIN.VIDEO_DIR = 'data/hmdb51_org'
 _C.DATASETS.TRAIN.ANNOTATION_DIR = 'data/testTrainMulti_7030_splits'
 
 _C.DATASETS.TEST = CN()
-_C.DATASETS.TEST.NAME = ['hmdb51']
+_C.DATASETS.TEST.NAME = 'HMDB51'
 _C.DATASETS.TEST.STEP_BETWEEN_CLIPS = 16
 _C.DATASETS.TEST.FRAMES_PER_CLIP = 16
 _C.DATASETS.TEST.VIDEO_DIR = 'data/hmdb51_org'
@@ -88,8 +88,8 @@ _C.TRANSFORM.STD = (0.5, 0.5, 0.5)
 # DataLoader
 # ---------------------------------------------------------------------------- #
 _C.DATALOADER = CN()
-_C.DATALOADER.TRAIN_BATCH_SIZE = 24
-_C.DATALOADER.TEST_BATCH_SIZE = 24
+_C.DATALOADER.TRAIN_BATCH_SIZE = 16
+_C.DATALOADER.TEST_BATCH_SIZE = 16
 _C.DATALOADER.NUM_WORKERS = 8
 
 # ---------------------------------------------------------------------------- #

@@ -15,7 +15,7 @@ import torch
 from c3d.util.metrics import topk_accuracy
 from c3d.util.metric_logger import MetricLogger
 
-from .evaluation import do_evaluation
+from .inference import do_evaluation
 
 
 def do_train(cfg, arguments,
@@ -86,9 +86,13 @@ def do_train(cfg, arguments,
         if iteration % save_step == 0:
             checkpointer.save("model_{:06d}".format(iteration), **arguments)
         if iteration % eval_step == 0:
-            do_evaluation(cfg, model, device)
+            do_evaluation(cfg, model, device, iteration=iteration)
             model.train()
+
+    checkpointer.save("model_final", **arguments)
 
     total_training_time = int(time.time() - start_training_time)
     total_time_str = str(datetime.timedelta(seconds=total_training_time))
     logger.info("Total training time: {} ({:.4f} s / it)".format(total_time_str, total_training_time / max_iter))
+
+    return model
