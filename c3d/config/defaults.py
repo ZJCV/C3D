@@ -12,7 +12,7 @@ _C = CN()
 # ---------------------------------------------------------------------------- #
 _C.TRAIN = CN()
 _C.TRAIN.NAME = 'C3D.train'
-_C.TRAIN.MAX_ITER = 10000
+_C.TRAIN.MAX_ITER = 100000
 _C.TRAIN.LOG_STEP = 10
 _C.TRAIN.SAVE_STEP = 2500
 _C.TRAIN.EVAL_STEP = 2500
@@ -44,7 +44,7 @@ _C.CRITERION.NAME = 'crossentropy'
 _C.OPTIMIZER = CN()
 _C.OPTIMIZER.NAME = 'sgd'
 _C.OPTIMIZER.LR = 1e-3
-_C.OPTIMIZER.WEIGHT_DECAY = 3e-4
+_C.OPTIMIZER.WEIGHT_DECAY = 3e-5
 # for sgd
 _C.OPTIMIZER.MOMENTUM = 0.9
 
@@ -53,10 +53,11 @@ _C.OPTIMIZER.MOMENTUM = 0.9
 # ---------------------------------------------------------------------------- #
 _C.LR_SCHEDULER = CN()
 _C.LR_SCHEDULER.NAME = 'multistep_lr'
+_C.LR_SCHEDULER.GAMMA = 0.1
 # for SteLR
-_C.LR_SCHEDULER.STEP_SIZE = 400
+_C.LR_SCHEDULER.STEP_SIZE = 4000
 # for MultiStepLR
-_C.LR_SCHEDULER.MILESTONES = [2500, 6000]
+_C.LR_SCHEDULER.MILESTONES = [25000, 60000]
 
 # ---------------------------------------------------------------------------- #
 # DataSets
