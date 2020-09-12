@@ -22,9 +22,22 @@
 ## 内容列表
 
 - [内容列表](#内容列表)
+- [使用](#使用)
 - [主要维护人员](#主要维护人员)
 - [参与贡献方式](#参与贡献方式)
 - [许可证](#许可证)
+
+## 使用
+
+训练命令如下：
+
+```
+$ export CUDA_VISIBLE_DEVICES=1
+$ export PYTHONPATH=.
+$ python tools/train.py --config_file configs/c3d_hmdb51.yaml
+```
+
+*本工程使用了`PyTorch`实现的`HMDB51`和`UCF101`数据集类，其解析和加载速度非常慢*
 
 ## 主要维护人员
 
